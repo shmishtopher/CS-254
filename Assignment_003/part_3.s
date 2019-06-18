@@ -4,7 +4,7 @@
 # There are two two's complement integers in the data section with symbolic 
 # addresses x and y. Compare the two integers and, if x >= y, store x - y in 
 # the location with symbolic address "answer", otherwise store y - 2x at
-# "answer". A sample of the data section in your program is shown as below.
+# "answer".
 
   .data
 x: .word 3
@@ -19,5 +19,14 @@ main:
   lw    $29, 0x04($31)  # y
   sll   $0, $0, 0x00
 
-  # x < y
   slt   $28, $30, $29
+  bne   $28, $0, branch
+  j     end
+  sub		$28, $30, $29
+
+branch:
+  sll   $30, $30, 0x01
+  sub   $28, $29, $30
+
+end:
+  sw    $28, 0x08($31)
